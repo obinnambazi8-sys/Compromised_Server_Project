@@ -1,0 +1,26 @@
+INCIDENT REPORT - SSH brute force and account compromise
+Prepared: Thu Nov 19 03:28:35 PM UTC 2026
+
+1. SCALE - failed login attempts:
+115
+
+2. SOURCE- top attacking addresses:
+    102 203.0.113.47
+      9 192.0.2.146
+      4 10.0.0.9
+
+3. BREACH - successful login from the attacking address: 
+Jun 26 12:45:09 t240-web sshd[6980]: Accepted password for admin from 203.0.113.47 port 41931 ssh2
+
+4. IMPACT - attacker activity after access:
+Jun 26 12:46:02 t240-web sshd[1471]: sudo:    admin : TTY=pts/1 ; PWD=/home/admin ; USER=root ; COMMAND=/usr/bin/cat /etc/shadow
+
+5. REMEDIATION - applied to this server:
+- password and root login disabled for SSH (tested: password login refused)
+- Firewall enabled: deny all inbound, allow only 22/tcp
+- All packages patched to current versions
+
+
+
+The server was compromised by a brute force attack on the admin account, which worked because passowrd logins were allowed. The attacker read the system password file, so every password on that machine should be treated as 
+stolen and reset. Password login has been disabled and a default-deny firewall was applied.
